@@ -1,0 +1,27 @@
+@use '@/app/styles/variables.module' as var;
+
+.user-preview {
+  display: grid;
+  grid-template: repeat(2, auto) / repeat(2, auto);
+}
+
+.name {
+  font-size: 18px;
+  line-height: 28px;
+  color: var.$heading-color;
+  grid-column: 1 / 2;
+}
+
+.date {
+  color: var.$text-color-secondary;
+  grid-column: 1 / 2;
+  margin-top: 2px;
+}
+
+.avatar {
+  grid-row: 1 / span 2;
+  grid-column: 2 / 3;
+  width: 48px;
+  height: 48px;
+  margin-left: 12px;
+}

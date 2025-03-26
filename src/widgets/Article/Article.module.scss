@@ -1,0 +1,83 @@
+@use '@/app/styles/variables.module' as var;
+
+.article {
+  display: grid;
+  width: 100%;
+  max-width: 938px;
+  grid-template-columns: auto auto 1fr 10px auto;
+  justify-content: stretch;
+  align-items: center;
+  grid-template-areas:
+    'title likes . . user'
+    'tags tags tags . user'
+    'description description description . .'
+    'body body body body body';
+  padding: 15px 16px 24px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  line-height: 22px;
+  background-color: var.$background-color-base;
+  overflow: hidden;
+
+  &--with-fix-height {
+    height: 140px;
+  }
+
+  &__user {
+    grid-area: user;
+  }
+}
+
+.title {
+  grid-area: title;
+  margin: 0 13px 0 0;
+
+  a {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    text-decoration: none;
+    color: var.$primary-color;
+  }
+}
+
+.likes {
+  grid-area: likes;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.tags {
+  grid-area: tags;
+  margin-top: 4px;
+
+  :global(.ant-tag) {
+    border: 1px solid var.$text-color-secondary;
+    color: var.$text-color-secondary;
+    font-size: 12px;
+  }
+}
+
+.description {
+  grid-area: description;
+  align-self: start;
+  margin-top: 4px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  box-orient: vertical;
+}
+
+.body {
+  grid-area: body;
+  color: red;
+  order: 1;
+}

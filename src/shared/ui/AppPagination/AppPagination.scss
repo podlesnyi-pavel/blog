@@ -1,0 +1,17 @@
+@use '@/app/styles/variables.module' as var;
+
+.ant-pagination {
+  font-size: 12px;
+
+  .ant-pagination-item {
+    border-radius: 4px;
+  }
+
+  .ant-pagination-item-active {
+    font-weight: 600;
+
+    a {
+      color: var.$background-color-base;
+    }
+  }
+}
