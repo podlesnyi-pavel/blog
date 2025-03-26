@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import styles from './Header.module.scss';
 import AppButton from '@/shared/ui/AppButton';
-// import { Link } from 'react-router';
 import AppLink from '@/shared/ui/AppLink';
 
 const Header: FC = () => {
@@ -16,10 +15,6 @@ const Header: FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles['header-inner']}>
-        {/* <Link className={styles.link} to="/">
-          Realworld Blog
-        </Link> */}
-
         <AppLink className={styles.link} to="/">
           Realworld Blog
         </AppLink>

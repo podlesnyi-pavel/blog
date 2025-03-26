@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import styles from './Article.module.scss';
 import stylesVar from '@/app/styles/variables.module.scss';
-// import { Link } from 'react-router';
 import AppIcon from '@/shared/ui/AppIcon';
 import UserPreview from '@/widgets/UserPreview';
 import { Tag } from 'antd';
@@ -36,7 +35,6 @@ const Article: FC<ArticleProps> = ({
       className={`${styles.article} ${!body ? styles['article--with-fix-height'] : ''}`}
     >
       <h2 className={styles.title}>
-        {/* <Link to={`articles/${slug}`}>{title}</Link> */}
         <AppLink to={`articles/${slug}`}>{title}</AppLink>
       </h2>
       <div className={styles.likes}>
