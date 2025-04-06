@@ -4,7 +4,7 @@ import { Button, ButtonProps } from 'antd';
 
 type TButtonPropsOmitClassName = Omit<ButtonProps, 'className'>;
 interface TButtonPropsModern extends TButtonPropsOmitClassName {
-  className: keyof typeof styles;
+  className?: keyof typeof styles;
 }
 const AppButton: FC<TButtonPropsModern> = ({
   variant,
@@ -13,15 +13,17 @@ const AppButton: FC<TButtonPropsModern> = ({
   children,
   className,
   type,
+  htmlType = 'button',
   onClick,
 }) => {
   return (
     <Button
-      className={` ${styles['app-button']} ${className ? styles[className] : ''}`}
+      className={`app-button ${styles['app-button']} ${className ? styles[className] : ''}`}
       color={color}
       variant={variant}
       size={size}
       type={type}
+      htmlType={htmlType}
       onClick={onClick}
     >
       {children}

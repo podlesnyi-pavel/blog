@@ -37,6 +37,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/no-invalid-void-type': "off",
     },
     settings: {
       react: {

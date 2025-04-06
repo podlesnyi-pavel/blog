@@ -1,0 +1,26 @@
+.articles-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: inherit;
+  padding: 26px 0 17px;
+}
+
+.articles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: inherit;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style-type: none;
+}
+
+.article {
+  width: inherit;
+
+  &:not(:first-child) {
+    margin-top: 26px;
+  }
+}

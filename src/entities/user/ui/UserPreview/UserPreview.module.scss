@@ -1,0 +1,28 @@
+@use '@/app/styles/variables.module' as var;
+
+.user-preview {
+  display: flex;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 18px;
+  line-height: 28px;
+  color: var.$heading-color;
+}
+
+.date {
+  color: var.$text-color-secondary;
+  margin-top: 2px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  margin-left: 12px;
+}
