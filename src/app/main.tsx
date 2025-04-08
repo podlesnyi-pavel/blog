@@ -11,6 +11,7 @@ import { ArticlePage } from '@/pages/Article';
 import { SignUpPage } from '@/pages/SignUp';
 import { SignInPage } from '@/pages/SignIn';
 import { ProfilePage } from '@/pages/Profile';
+import { NewArticlePage } from '@/pages/NewArticle';
 
 const root = document.getElementById('root');
 
@@ -27,7 +28,7 @@ if (root) {
               <Route path="sign-in" element={<SignInPage />} />
               <Route path="sign-up" element={<SignUpPage />} />
               <Route path="profile" element={<ProfilePage />} />
-              <Route path="new-article" element={<div>new-article</div>} />
+              <Route path="new-article" element={<NewArticlePage />} />
             </Route>
           </Routes>
         </Router>

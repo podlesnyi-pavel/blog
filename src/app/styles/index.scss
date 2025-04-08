@@ -24,6 +24,7 @@ html {
     flex-grow: 1;
     display: flex;
     justify-content: center;
+    align-items: start;
     width: 100%;
     max-width: calc(938px + $p-lr * 2);
     padding: 0 $p-lr;
