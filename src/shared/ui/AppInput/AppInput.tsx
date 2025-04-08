@@ -46,14 +46,6 @@ export function AppInput<T extends FieldValues>({
   maxLengthRHF,
   validate,
 }: AppInputProps<T>): JSX.Element {
-  // console.log('methods', methods);
-  // console.log('name', name);
-  // console.log(
-  //   'methods.formState.errors[name]',
-  //   methods?.formState.errors[name],
-  // );
-  // console.log('pattern', pattern);
-
   let register;
   let errors;
   let RHFPattern;

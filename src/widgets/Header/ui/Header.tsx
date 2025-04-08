@@ -4,8 +4,7 @@ import { AppButton, AppLink } from '@/shared/ui';
 import { UserPreview } from '@/entities/user';
 import { useGetCurrentUserQuery } from '@/shared/api';
 import { logout } from '@/features/user';
-// import { useAppDispatch, useAppSelector } from '@/shared/lib';
-import { useAppDispatch, useAppSelector } from '@/app';
+import { useAppDispatch, useAppSelector } from '@/shared/lib';
 import { removeItem } from '@/shared/lib';
 import { useNavigate } from 'react-router';
 
@@ -31,9 +30,15 @@ const Header: FC = () => {
 
         {token && userData ? (
           <div className={styles.actions}>
-            <AppButton variant="outlined" color="green">
+            <AppLink
+              to="/new-article"
+              type="button"
+              variant="outlined"
+              color="green"
+              size="middle"
+            >
               Create article
-            </AppButton>
+            </AppLink>
 
             <UserPreview
               author={{

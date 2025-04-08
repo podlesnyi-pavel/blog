@@ -4,7 +4,7 @@ import styles from './AppLink.module.scss';
 
 interface customProps {
   type?: 'button';
-  size?: 'large-plus';
+  size?: 'large-plus' | 'middle';
   variant?: 'outlined';
   color?: 'green' | 'blue';
 }
@@ -17,6 +17,7 @@ interface To {
     | '/sign-in'
     | '/sign-up'
     | '/profile'
+    | '/new-article'
     | Partial<Path>;
 }
 

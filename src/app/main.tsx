@@ -27,6 +27,7 @@ if (root) {
               <Route path="sign-in" element={<SignInPage />} />
               <Route path="sign-up" element={<SignUpPage />} />
               <Route path="profile" element={<ProfilePage />} />
+              <Route path="new-article" element={<div>new-article</div>} />
             </Route>
           </Routes>
         </Router>
