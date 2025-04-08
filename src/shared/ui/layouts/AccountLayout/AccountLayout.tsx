@@ -9,7 +9,7 @@ interface AccountLayoutProps {
 export const AccountLayout: FC<AccountLayoutProps> = ({ children }) => {
   return (
     <div className="account-layout">
-      <ModalLayout>{children}</ModalLayout>
+      <ModalLayout width={384}>{children}</ModalLayout>
     </div>
   );
 };
