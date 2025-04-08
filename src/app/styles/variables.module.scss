@@ -1,12 +1,18 @@
 $black: #000;
+$white: #fff;
 
 $heading-color: rgba($black, 0.85);
 $text-color: rgba($black, 0.75);
 $primary-color: #1890ff;
 $text-color-secondary: rgba($black, 0.5);
-
+$success-color: #52c41a;
+$normal-color: #d9d9d9;
+$border-color-base: #d9d9d9;
 $background-color-base: #fff;
 $background: #ebeef3;
+$table-header: rgba(0, 0, 0, 0.02);
+$highlight-color: #f5222d;
+$error-color: #f5222d;
 
 :export {
   textColor: $text-color;

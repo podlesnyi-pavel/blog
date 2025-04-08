@@ -1,5 +1,5 @@
-@forward 'modern-normalize.scss';
-@use 'variables.module' as var;
+@use 'modern-normalize.scss';
+@use '@/app/styles/variables.module' as var;
 
 html {
   font-family: Inter, sans-serif;
@@ -7,10 +7,26 @@ html {
   color: var.$text-color;
 }
 
-body {
-  background-color: var.$background;
-}
-
 .app {
-  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    background-color: var.$background;
+  }
+
+  &__container {
+    $p-lr: 10px;
+
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: calc(938px + $p-lr * 2);
+    padding: 0 $p-lr;
+    margin: 0 auto;
+  }
 }

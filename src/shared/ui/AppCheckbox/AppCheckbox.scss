@@ -1,0 +1,16 @@
+@use '@/app/styles/variables.module.scss' as var;
+
+.ant-checkbox-wrapper {
+  font-family: inherit;
+}
+
+.ant-checkbox {
+  align-self: flex-start;
+  margin-top: 3px;
+}
+
+.error-message {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var.$error-color;
+}

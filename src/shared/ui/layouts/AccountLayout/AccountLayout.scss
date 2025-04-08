@@ -1,0 +1,39 @@
+@use '@/app/styles/variables.module.scss' as var;
+
+.account-layout {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 59px 0 64px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      margin: 0;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      text-align: center;
+      color: #262626;
+    }
+
+    .app-input {
+      margin-top: 12px;
+    }
+
+    .app-button {
+      margin-top: 21px;
+    }
+
+    .ant-checkbox-wrapper {
+      margin-top: 8px;
+    }
+  }
+
+  .sign-in-link {
+    margin-top: 8px;
+    text-align: center;
+  }
+}

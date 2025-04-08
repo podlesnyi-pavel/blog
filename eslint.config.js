@@ -8,7 +8,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import react from 'eslint-plugin-react';
 
 export default tseslint.config(
-  { ignores: ['dist', 'vite.config.ts'] },
+  { ignores: ['dist', 'vite.config.ts', 'steiger.config.ts'] },
   {
     extends: [
       js.configs.recommended,
@@ -37,6 +37,8 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/no-invalid-void-type': 'off',
+      'no-console': ['error', { allow: ['warn', 'error'] }],
     },
     settings: {
       react: {

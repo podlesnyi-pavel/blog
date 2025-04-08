@@ -1,17 +1,40 @@
 import { FC } from 'react';
-import { Link, LinkProps } from 'react-router';
+import { Link, LinkProps, Path } from 'react-router';
+import styles from './AppLink.module.scss';
 
-interface To {
-  to: '/' | 'articles' | `articles/${string}`;
+interface customProps {
+  type?: 'button';
+  size?: 'large-plus';
+  variant?: 'outlined';
+  color?: 'green' | 'blue';
 }
 
-type AppLinkProps = Omit<LinkProps, 'to'> & To;
+interface To {
+  to:
+    | '/'
+    | '/articles'
+    | `/articles/${string}`
+    | '/sign-in'
+    | '/sign-up'
+    | '/profile'
+    | Partial<Path>;
+}
+
+type AppLinkProps = Omit<LinkProps, 'to'> & To & customProps;
 
 export const AppLink: FC<
   AppLinkProps & React.RefAttributes<HTMLAnchorElement>
-> = ({ className, children, to }) => {
+> = ({ className, children, to, type, size, variant, color }) => {
+  const typeClass = type ? styles[`app-link--type--${type}`] : '';
+  const sizeClass = size ? styles[`app-link--size--${size}`] : '';
+  const variantClass = variant ? styles[`app-link--variant--${variant}`] : '';
+  const colorClass = color ? styles[`app-link--color--${color}`] : '';
+
   return (
-    <Link className={className} to={to}>
+    <Link
+      className={`${className ?? ''} ${styles['app-link']} ${typeClass} ${sizeClass} ${variantClass} ${colorClass}`}
+      to={to}
+    >
       {children}
     </Link>
   );

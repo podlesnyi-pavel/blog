@@ -1,0 +1,41 @@
+@use '@/app/styles/variables.module' as var;
+
+.app-input {
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #262626;
+
+  &__input {
+    height: 40px;
+    margin-top: 2px;
+    padding: 8px 12px;
+    border: 1px solid var.$border-color-base;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var.$text-color;
+
+    &::placeholder {
+      color: #bfbfbf;
+    }
+
+    &[aria-invalid='true'] {
+      outline-color: var.$highlight-color;
+      border-color: var.$highlight-color;
+    }
+  }
+
+  &__error-text {
+    margin: 2px 0 0;
+    color: var.$error-color;
+  }
+}
+
+.error-message {
+  margin: 2px 0 0;
+  color: var.$error-color;
+}
