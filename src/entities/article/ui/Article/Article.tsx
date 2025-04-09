@@ -20,7 +20,7 @@ export const Article: FC<ArticleProps> = ({
     title,
     author,
     description,
-    tags,
+    tagList,
     favoritesCount,
     createdAt,
     body,
@@ -50,9 +50,9 @@ export const Article: FC<ArticleProps> = ({
         author={author}
         createdAt={createdAt}
       />
-      {tags && (
+      {tagList && (
         <div className={styles.tags}>
-          {tags.map((tag) => {
+          {tagList.map((tag) => {
             return <Tag key={tag}>{tag}</Tag>;
           })}
         </div>

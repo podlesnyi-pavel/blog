@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IArticlesData, IArticle } from './types/IArticlesData';
+import {
+  IArticlesData,
+  IArticle,
+  IArticlePOSTRequest,
+} from './types/IArticlesData';
 import { IArticleData } from './types/IArticleData';
 import {
   IUser,
@@ -21,16 +25,21 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://blog-platform.kata.academy/api/',
   }),
-  tagTypes: ['user'],
+  tagTypes: ['user', 'articles'],
   endpoints: (builder) => ({
     getArticles: builder.query<IArticlesData, string>({
-      query: (page) => ({
-        url: 'articles',
-        params: {
-          limit: 5,
-          offset: page,
-        },
-      }),
+      query: (page) => {
+        const articlesByPage = 5;
+
+        return {
+          url: 'articles',
+          params: {
+            limit: articlesByPage,
+            offset: Number(page) * articlesByPage,
+          },
+        };
+      },
+      providesTags: ['articles'],
     }),
     getArticle: builder.query<IArticle, string>({
       query: (slug) => `articles/${slug}`,
@@ -47,6 +56,15 @@ export const baseApi = createApi({
         return baseQueryReturnValue.user;
       },
       providesTags: ['user'],
+    }),
+    createArticle: builder.mutation<IArticle, IArticlePOSTRequest>({
+      query: (args) => ({
+        method: 'POST',
+        url: 'articles',
+        headers: getAuthHeaders(),
+        body: { article: { ...args } },
+      }),
+      invalidatesTags: ['articles'],
     }),
     registerUser: builder.mutation<
       IUserData,
@@ -95,6 +113,7 @@ export const baseApi = createApi({
 export const {
   useGetArticlesQuery,
   useGetArticleQuery,
+  useCreateArticleMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,

@@ -1,0 +1,61 @@
+@use '@/app/styles/variables.module' as var;
+
+.error-message {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var.$error-color;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 140%;
+  text-align: center;
+  color: #262626;
+}
+
+.label-textarea {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.textarea {
+  min-height: 168px;
+  padding: 7px 12px;
+  border: 1px solid var.$border-color-base;
+  border-radius: 4px;
+  resize: none;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  &[aria-invalid='true'] {
+    outline-color: var.$highlight-color;
+    border-color: var.$highlight-color;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tags-item {
+  display: flex;
+  align-items: center;
+  column-gap: 17px;
+
+  &:first-of-type {
+    margin-top: 5px;
+  }
+}

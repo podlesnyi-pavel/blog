@@ -16,7 +16,7 @@ import {
 
 export interface AppInputProps<T extends FieldValues>
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'maxLength' | 'pattern'> {
-  label: string;
+  label?: string;
   autocomplete?: HTMLInputAutoCompleteAttribute;
   name: Path<T>;
   methods?: UseFormReturn<T>;
@@ -28,6 +28,9 @@ export interface AppInputProps<T extends FieldValues>
   maxLength?: number | undefined;
   maxLengthRHF?: ValidationRule<number>;
   pattern?: ValidationRule<RegExp | string>;
+  minWidth?: number;
+  maxWidth?: number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function AppInput<T extends FieldValues>({
@@ -37,6 +40,7 @@ export function AppInput<T extends FieldValues>({
   autocomplete = 'on',
   className = '',
   name,
+  value,
   methods,
   pattern,
   required = false,
@@ -44,7 +48,10 @@ export function AppInput<T extends FieldValues>({
   minLengthRHF,
   maxLength,
   maxLengthRHF,
+  minWidth,
+  maxWidth,
   validate,
+  onChange,
 }: AppInputProps<T>): JSX.Element {
   let register;
   let errors;
@@ -115,10 +122,16 @@ export function AppInput<T extends FieldValues>({
           type={type}
           autoComplete={autocomplete}
           name={name}
+          value={value}
           pattern={typeof pattern === 'string' ? pattern : undefined}
           required
           minLength={minLength}
           maxLength={maxLength}
+          style={{
+            minWidth: minWidth ? `${minWidth.toString()}px` : '',
+            maxWidth: maxWidth ? `${maxWidth.toString()}px` : '',
+          }}
+          onChange={onChange}
         />
       )}
     </label>

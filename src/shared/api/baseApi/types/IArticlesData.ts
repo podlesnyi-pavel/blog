@@ -6,7 +6,7 @@ export interface IArticlesData {
 export interface IArticle {
   body: string;
   slug: string;
-  tags: string[] | undefined;
+  tagList: string[] | undefined;
   title: string;
   author: IAuthor;
   createdAt: string;
@@ -21,4 +21,11 @@ export interface IAuthor {
   image: string | undefined;
   username: string;
   following?: boolean;
+}
+
+export interface IArticlePOSTRequest {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
 }

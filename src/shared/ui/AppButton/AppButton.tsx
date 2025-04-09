@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import styles from './AppButton.module.scss';
+import classes from './AppButton.module.scss';
 import { Button, ButtonProps } from 'antd';
 
 type TButtonPropsOmitClassName = Omit<ButtonProps, 'className'>;
 interface TButtonPropsModern extends TButtonPropsOmitClassName {
-  className?: keyof typeof styles;
+  className?: keyof typeof classes;
+  width?: number;
+  minWidth?: number;
+  alignSelf?: string;
 }
 const AppButton: FC<TButtonPropsModern> = ({
   variant,
@@ -14,11 +17,19 @@ const AppButton: FC<TButtonPropsModern> = ({
   className,
   type,
   htmlType = 'button',
+  width,
+  minWidth,
+  alignSelf,
   onClick,
 }) => {
   return (
     <Button
-      className={`app-button ${styles['app-button']} ${className ? styles[className] : ''}`}
+      className={`app-button ${classes['app-button']} ${className ? classes[className] : ''}`}
+      style={{
+        width: width ? `${width.toString()}px` : '',
+        minWidth: minWidth ? `${minWidth.toString()}px` : '',
+        alignSelf: alignSelf ?? '',
+      }}
       color={color}
       variant={variant}
       size={size}

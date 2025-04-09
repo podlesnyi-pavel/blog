@@ -3,7 +3,7 @@
 .article {
   display: grid;
   width: 100%;
-  grid-template-columns: auto auto 1fr 10px auto;
+  grid-template-columns: auto auto 1fr minmax(10px, 71px) auto;
   justify-content: stretch;
   align-items: center;
   grid-template-areas:
