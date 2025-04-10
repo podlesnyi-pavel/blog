@@ -71,7 +71,7 @@ export const baseApi = createApi({
       },
       providesTags: ['article'],
     }),
-    createArticle: builder.mutation<IArticle, IArticlePOSTRequest>({
+    createArticle: builder.mutation<IArticleData, IArticlePOSTRequest>({
       query: (args) => ({
         method: 'POST',
         url: 'articles',
@@ -80,7 +80,7 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ['articles'],
     }),
-    updateArticle: builder.mutation<IArticle, IArticleUpdateRequest>({
+    updateArticle: builder.mutation<IArticleData, IArticleUpdateRequest>({
       query: ({ body, slug, title, description, tagList }) => {
         return {
           url: `/articles/${slug}`,
@@ -96,6 +96,14 @@ export const baseApi = createApi({
           },
         };
       },
+      invalidatesTags: ['articles', 'article'],
+    }),
+    deleteArticle: builder.mutation<void, string>({
+      query: (slug) => ({
+        url: `/articles/${slug}`,
+        headers: getAuthHeaders(),
+        method: 'DELETE',
+      }),
       invalidatesTags: ['articles', 'article'],
     }),
     getCurrentUser: builder.query<IUser, void>({
@@ -157,6 +165,7 @@ export const {
   useGetArticleQuery,
   useCreateArticleMutation,
   useUpdateArticleMutation,
+  useDeleteArticleMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,

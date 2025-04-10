@@ -8,7 +8,7 @@ import {
   useGetArticleQuery,
   useUpdateArticleMutation,
 } from '@/shared/api';
-import { useMatch } from 'react-router';
+import { useMatch, useNavigate } from 'react-router';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 interface CreateEditArticleFormProps {
@@ -29,7 +29,7 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
   const { data: articleData } = useGetArticleQuery(
     match?.params.slug ?? skipToken,
   );
-
+  const navigate = useNavigate();
   // console.log('articleData', articleData);
   // console.log('match', match);
 
@@ -77,17 +77,32 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
     }
   };
 
-  const createNewArticle: SubmitHandler<FormValues> = (data, e) => {
+  const createNewArticle: SubmitHandler<FormValues> = async (data, e) => {
     e?.preventDefault();
-    void createArticle({ ...data, tagList: tags.map((tag) => tag.value) });
+    await createArticle({
+      ...data,
+      tagList: tags.map((tag) => tag.value),
+    }).then((responseData) => {
+      const articleData = responseData.data;
+
+      if (articleData) {
+        void navigate(`/articles/${articleData.article.slug}`);
+      }
+    });
   };
 
-  const editArticle: SubmitHandler<FormValues> = (data, e) => {
+  const editArticle: SubmitHandler<FormValues> = async (data, e) => {
     e?.preventDefault();
-    void updateArticle({
+    await updateArticle({
       ...data,
       tagList: tags.map((tag) => tag.value),
       slug: articleData?.slug ?? '',
+    }).then((responseData) => {
+      const articleData = responseData.data;
+
+      if (articleData) {
+        void navigate(`/articles/${articleData.article.slug}`);
+      }
     });
   };
 

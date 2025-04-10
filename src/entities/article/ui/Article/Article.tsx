@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import styles from './Article.module.scss';
 import stylesVar from '@/app/styles/variables.module.scss';
-import { AppButton, AppIcon } from '@/shared/ui';
+import { AppIcon } from '@/shared/ui';
 import { UserPreview } from '@/entities/user/@x/article';
-import { Tag } from 'antd';
-import { IArticleTagListObject } from '@/shared/api';
+import { Button, Tag } from 'antd';
+import { IArticleTagListObject, useDeleteArticleMutation } from '@/shared/api';
 import Markdown from 'react-markdown';
 import { AppLink } from '@/shared/ui';
+import { useNavigate } from 'react-router';
+import { Popconfirm } from 'antd';
 
 interface ArticleProps {
   article: IArticleTagListObject;
@@ -28,6 +30,15 @@ export const Article: FC<ArticleProps> = ({
   showBody = false,
   onLike,
 }) => {
+  const [deleteArticle] = useDeleteArticleMutation();
+  const navigate = useNavigate();
+
+  const onDeleteArticle = async () => {
+    await deleteArticle(slug);
+    // TODO use current page pagination
+    void navigate('/');
+  };
+
   return (
     <article
       className={`${styles.article} ${!body ? styles['article--with-fix-height'] : ''}`}
@@ -64,9 +75,16 @@ export const Article: FC<ArticleProps> = ({
 
         {!!showBody && (
           <div className={styles['edit-buttons']}>
-            <AppButton variant="outlined" color="red">
-              Delete
-            </AppButton>
+            <Popconfirm
+              title="Delete the article"
+              description="Are you sure to delete this article?"
+              onConfirm={() => void onDeleteArticle()}
+              okText="Yes"
+              cancelText="No"
+              placement="rightBottom"
+            >
+              <Button danger>Delete</Button>
+            </Popconfirm>
             <AppLink
               to={`/articles/${slug}/edit`}
               type="button"

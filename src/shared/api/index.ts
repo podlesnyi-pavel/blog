@@ -4,6 +4,7 @@ export {
   useGetArticleQuery,
   useCreateArticleMutation,
   useUpdateArticleMutation,
+  useDeleteArticleMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,
