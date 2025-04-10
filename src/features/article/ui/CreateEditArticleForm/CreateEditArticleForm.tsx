@@ -1,8 +1,15 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './createEditArticleForm.module.scss';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { AppButton, AppInput, RHFWrapperAppInput } from '@/shared/ui';
-import { useCreateArticleMutation } from '@/shared/api';
+import {
+  IArticleTags,
+  useCreateArticleMutation,
+  useGetArticleQuery,
+  useUpdateArticleMutation,
+} from '@/shared/api';
+import { useMatch } from 'react-router';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 interface CreateEditArticleFormProps {
   title: 'Create new article' | 'Edit article';
@@ -17,15 +24,37 @@ interface FormValues {
 export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
   title,
 }) => {
-  const methods = useForm<FormValues>();
+  const match = useMatch(`/articles/:slug/edit`);
+  const isEditPage = !!match;
+  const { data: articleData } = useGetArticleQuery(
+    match?.params.slug ?? skipToken,
+  );
+
+  // console.log('articleData', articleData);
+  // console.log('match', match);
+
+  const methods = useForm<FormValues>({
+    values: {
+      title: articleData?.title ?? '',
+      description: articleData?.description ?? '',
+      body: articleData?.body ?? '',
+    },
+  });
   const {
     register,
     formState: { errors },
   } = methods;
 
-  const [createArticle] = useCreateArticleMutation();
+  const [createArticle, { isLoading: isLoadingCreateArticle }] =
+    useCreateArticleMutation();
+  const [updateArticle, { isLoading: isLoadingUpdateArticle }] =
+    useUpdateArticleMutation();
 
-  const [tags, setTags] = useState<{ id: number; value: string }[]>([]);
+  const [tags, setTags] = useState<IArticleTags[]>([]);
+
+  useEffect(() => {
+    setTags((tags) => (articleData ? [...articleData.tagList] : tags));
+  }, [articleData]);
 
   const onAddTag = () => {
     setTags((tags) => [
@@ -53,11 +82,24 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
     void createArticle({ ...data, tagList: tags.map((tag) => tag.value) });
   };
 
+  const editArticle: SubmitHandler<FormValues> = (data, e) => {
+    e?.preventDefault();
+    void updateArticle({
+      ...data,
+      tagList: tags.map((tag) => tag.value),
+      slug: articleData?.slug ?? '',
+    });
+  };
+
+  const onSubmit = () => {
+    return isEditPage ? editArticle : createNewArticle;
+  };
+
   return (
     <FormProvider {...methods}>
       <form
         className={styles.form}
-        onSubmit={(e) => void methods.handleSubmit(createNewArticle)(e)}
+        onSubmit={(e) => void methods.handleSubmit(onSubmit())(e)}
       >
         <h1 className={styles.title}>{title}</h1>
         <RHFWrapperAppInput
@@ -94,7 +136,7 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
           )}
         </label>
 
-        <label className={styles.tags} htmlFor="tag">
+        <label className={styles.tags}>
           Tags
           {!tags.length && (
             <AppButton
@@ -111,7 +153,6 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
           {tags.map((tag, index) => (
             <div key={tag.id} className={styles['tags-item']}>
               <AppInput
-                id="tag"
                 name="tag"
                 placeholder="Tag"
                 value={tag.value}
@@ -155,6 +196,7 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
           size="large"
           minWidth={319}
           alignSelf={'flex-start'}
+          disabled={isLoadingUpdateArticle || isLoadingCreateArticle}
         >
           Send
         </AppButton>

@@ -36,6 +36,7 @@ const Header: FC = () => {
               variant="outlined"
               color="green"
               size="middle"
+              padding="sm"
             >
               Create article
             </AppLink>

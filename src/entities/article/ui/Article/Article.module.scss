@@ -9,7 +9,7 @@
   grid-template-areas:
     'title likes . . user'
     'tags tags tags . user'
-    'description description description . .'
+    'description description description description description'
     'body body body body body';
   padding: 15px 16px 24px;
   border-radius: 5px;
@@ -59,9 +59,21 @@
   }
 }
 
-.description {
+.description-container {
   grid-area: description;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+
+  &--mt--16 {
+    margin-top: 16px;
+  }
+}
+
+.description {
   align-self: start;
+  max-width: 682px;
   margin-top: 4px;
 
   overflow: hidden;
@@ -73,6 +85,11 @@
   -webkit-box-orient: vertical;
   line-clamp: 2;
   box-orient: vertical;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 12px;
 }
 
 .body {

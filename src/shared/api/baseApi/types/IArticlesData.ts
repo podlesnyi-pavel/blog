@@ -2,11 +2,15 @@ export interface IArticlesData {
   articles: IArticle[];
   articlesCount: number;
 }
+export interface IArticlesDataMapped {
+  articles: IArticleTagListObject[];
+  articlesCount: number;
+}
 
 export interface IArticle {
   body: string;
   slug: string;
-  tagList: string[] | undefined;
+  tagList: string[];
   title: string;
   author: IAuthor;
   createdAt: string;
@@ -14,6 +18,15 @@ export interface IArticle {
   updatedAt: string;
   description: string;
   favoritesCount: number;
+}
+
+export interface IArticleTagListObject extends Omit<IArticle, 'tagList'> {
+  tagList: IArticleTags[];
+}
+
+export interface IArticleTags {
+  id: number;
+  value: string;
 }
 
 export interface IAuthor {
@@ -28,4 +41,8 @@ export interface IArticlePOSTRequest {
   description: string;
   body: string;
   tagList: string[];
+}
+
+export interface IArticleUpdateRequest extends IArticlePOSTRequest {
+  slug: string;
 }

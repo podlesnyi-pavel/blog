@@ -21,7 +21,7 @@ $transition-time: 0.3s;
       justify-content: center;
       align-items: center;
       padding: 8px 16px;
-      border-radius: 8px;
+      border-radius: 6px;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.04);
@@ -40,7 +40,7 @@ $transition-time: 0.3s;
     &--middle {
       height: 31px;
       font-size: 14px;
-      padding: 6px 10px;
+      // padding: 6px 10px;
     }
   }
 
@@ -73,6 +73,11 @@ $transition-time: 0.3s;
         background-color: var.$primary-color;
         color: var.$white;
       }
+    }
+  }
+  &--padding {
+    &--sm {
+      padding: 6px 10px;
     }
   }
 }

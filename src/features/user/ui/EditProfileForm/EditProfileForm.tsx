@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { AppButton, RHFWrapperAppInput } from '@/shared/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useEditProfileMutation, useGetCurrentUserQuery } from '@/shared/api';
+import { isMessageInErrorsOnFetch } from '@/shared/lib';
 
 const editProfileFormFields = {
   username: '',
@@ -34,18 +35,7 @@ export const EditProfileForm: FC = () => {
       try {
         await editProfile(data).unwrap();
       } catch (error) {
-        if (
-          error &&
-          typeof error === 'object' &&
-          'data' in error &&
-          error.data &&
-          typeof error.data === 'object' &&
-          'errors' in error.data &&
-          error.data.errors &&
-          typeof error.data.errors === 'object' &&
-          'message' in error.data.errors &&
-          typeof error.data.errors.message === 'string'
-        ) {
+        if (isMessageInErrorsOnFetch(error)) {
           const message = error.data.errors.message;
 
           const keys = Object.keys(

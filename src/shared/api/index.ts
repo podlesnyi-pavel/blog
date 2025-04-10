@@ -3,6 +3,7 @@ export {
   useGetArticlesQuery,
   useGetArticleQuery,
   useCreateArticleMutation,
+  useUpdateArticleMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,
@@ -13,6 +14,10 @@ export type {
   IArticle,
   IArticlesData,
   IArticlePOSTRequest,
+  IArticleTagListObject,
+  IArticleTags,
+  IArticlesDataMapped,
+  IArticleUpdateRequest,
 } from '@/shared/api/baseApi/types/IArticlesData';
 export type { IUser, IUserData } from '@/shared/api/baseApi/types/IUserData';
 export type { IArticleData } from '@/shared/api/baseApi/types/IArticleData';

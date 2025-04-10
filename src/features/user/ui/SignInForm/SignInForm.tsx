@@ -1,5 +1,5 @@
 import { useLoginMutation } from '@/shared/api';
-import { setItem } from '@/shared/lib';
+import { isErrorsOnFetch, setItem } from '@/shared/lib';
 import { AppButton, AppLink, RHFWrapperAppInput } from '@/shared/ui';
 import { FC } from 'react';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
@@ -34,16 +34,7 @@ export const SignInForm: FC = () => {
       dispatch(setToken(result.user.token));
       void navigate('/');
     } catch (error) {
-      if (
-        error &&
-        typeof error === 'object' &&
-        'data' in error &&
-        error.data &&
-        typeof error.data === 'object' &&
-        'errors' in error.data &&
-        error.data.errors &&
-        typeof error.data.errors === 'object'
-      ) {
+      if (isErrorsOnFetch(error)) {
         const message = Object.entries(error.data.errors)
           .map(
             (item) =>

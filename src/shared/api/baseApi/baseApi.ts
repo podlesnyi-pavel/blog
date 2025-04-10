@@ -3,6 +3,9 @@ import {
   IArticlesData,
   IArticle,
   IArticlePOSTRequest,
+  IArticleTagListObject,
+  IArticlesDataMapped,
+  IArticleUpdateRequest,
 } from './types/IArticlesData';
 import { IArticleData } from './types/IArticleData';
 import {
@@ -20,14 +23,24 @@ const getAuthHeaders = () => ({
     : '',
 });
 
+const mapArticle = (article: IArticle): IArticleTagListObject => {
+  return {
+    ...article,
+    tagList: article.tagList.map((tag, index) => ({
+      id: index,
+      value: tag,
+    })),
+  };
+};
+
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://blog-platform.kata.academy/api/',
   }),
-  tagTypes: ['user', 'articles'],
+  tagTypes: ['user', 'articles', 'article'],
   endpoints: (builder) => ({
-    getArticles: builder.query<IArticlesData, string>({
+    getArticles: builder.query<IArticlesDataMapped, string>({
       query: (page) => {
         const articlesByPage = 5;
 
@@ -39,13 +52,51 @@ export const baseApi = createApi({
           },
         };
       },
+      transformResponse(
+        baseQueryReturnValue: IArticlesData,
+      ): IArticlesDataMapped {
+        const articles = baseQueryReturnValue.articles;
+        return {
+          ...baseQueryReturnValue,
+          articles: articles.map((article) => mapArticle(article)),
+        };
+      },
       providesTags: ['articles'],
     }),
-    getArticle: builder.query<IArticle, string>({
+    getArticle: builder.query<IArticleTagListObject, string>({
       query: (slug) => `articles/${slug}`,
       transformResponse(baseQueryReturnValue: IArticleData) {
-        return baseQueryReturnValue.article;
+        const article = baseQueryReturnValue.article;
+        return mapArticle(article);
       },
+      providesTags: ['article'],
+    }),
+    createArticle: builder.mutation<IArticle, IArticlePOSTRequest>({
+      query: (args) => ({
+        method: 'POST',
+        url: 'articles',
+        headers: getAuthHeaders(),
+        body: { article: { ...args } },
+      }),
+      invalidatesTags: ['articles'],
+    }),
+    updateArticle: builder.mutation<IArticle, IArticleUpdateRequest>({
+      query: ({ body, slug, title, description, tagList }) => {
+        return {
+          url: `/articles/${slug}`,
+          headers: getAuthHeaders(),
+          method: 'PUT',
+          body: {
+            article: {
+              title,
+              description,
+              body,
+              tagList,
+            },
+          },
+        };
+      },
+      invalidatesTags: ['articles', 'article'],
     }),
     getCurrentUser: builder.query<IUser, void>({
       query: () => ({
@@ -56,15 +107,6 @@ export const baseApi = createApi({
         return baseQueryReturnValue.user;
       },
       providesTags: ['user'],
-    }),
-    createArticle: builder.mutation<IArticle, IArticlePOSTRequest>({
-      query: (args) => ({
-        method: 'POST',
-        url: 'articles',
-        headers: getAuthHeaders(),
-        body: { article: { ...args } },
-      }),
-      invalidatesTags: ['articles'],
     }),
     registerUser: builder.mutation<
       IUserData,
@@ -114,6 +156,7 @@ export const {
   useGetArticlesQuery,
   useGetArticleQuery,
   useCreateArticleMutation,
+  useUpdateArticleMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,

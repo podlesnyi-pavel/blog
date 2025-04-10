@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import styles from './Article.module.scss';
 import stylesVar from '@/app/styles/variables.module.scss';
-import { AppIcon } from '@/shared/ui';
+import { AppButton, AppIcon } from '@/shared/ui';
 import { UserPreview } from '@/entities/user/@x/article';
 import { Tag } from 'antd';
-import { IArticle } from '@/shared/api';
+import { IArticleTagListObject } from '@/shared/api';
 import Markdown from 'react-markdown';
 import { AppLink } from '@/shared/ui';
 
 interface ArticleProps {
-  article: IArticle;
+  article: IArticleTagListObject;
   showBody?: boolean;
   onLike: () => void;
 }
@@ -50,14 +50,35 @@ export const Article: FC<ArticleProps> = ({
         author={author}
         createdAt={createdAt}
       />
-      {tagList && (
+      {!!tagList.length && (
         <div className={styles.tags}>
           {tagList.map((tag) => {
-            return <Tag key={tag}>{tag}</Tag>;
+            return <Tag key={tag.id}>{tag.value}</Tag>;
           })}
         </div>
       )}
-      <div className={styles.description}>{description}</div>
+      <div
+        className={`${styles['description-container']} ${showBody ? styles['description-container--mt--16'] : ''}`}
+      >
+        <div className={styles.description}>{description}</div>
+
+        {!!showBody && (
+          <div className={styles['edit-buttons']}>
+            <AppButton variant="outlined" color="red">
+              Delete
+            </AppButton>
+            <AppLink
+              to={`/articles/${slug}/edit`}
+              type="button"
+              color="green"
+              variant="outlined"
+              size="middle"
+            >
+              Edit
+            </AppLink>
+          </div>
+        )}
+      </div>
 
       {!!showBody && (
         <div className={styles.body}>

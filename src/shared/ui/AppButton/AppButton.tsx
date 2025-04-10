@@ -17,6 +17,7 @@ const AppButton: FC<TButtonPropsModern> = ({
   className,
   type,
   htmlType = 'button',
+  disabled,
   width,
   minWidth,
   alignSelf,
@@ -35,6 +36,7 @@ const AppButton: FC<TButtonPropsModern> = ({
       size={size}
       type={type}
       htmlType={htmlType}
+      disabled={disabled}
       onClick={onClick}
     >
       {children}
