@@ -4,7 +4,12 @@ import stylesVar from '@/app/styles/variables.module.scss';
 import { AppIcon } from '@/shared/ui';
 import { UserPreview } from '@/entities/user/@x/article';
 import { Button, Tag } from 'antd';
-import { IArticleTagListObject, useDeleteArticleMutation } from '@/shared/api';
+import {
+  IArticleTagListObject,
+  useDeleteArticleMutation,
+  useFavoriteMutation,
+  useUnFavoriteMutation,
+} from '@/shared/api';
 import Markdown from 'react-markdown';
 import { AppLink } from '@/shared/ui';
 import { useNavigate } from 'react-router';
@@ -13,7 +18,6 @@ import { Popconfirm } from 'antd';
 interface ArticleProps {
   article: IArticleTagListObject;
   showBody?: boolean;
-  onLike: () => void;
 }
 
 export const Article: FC<ArticleProps> = ({
@@ -23,21 +27,35 @@ export const Article: FC<ArticleProps> = ({
     author,
     description,
     tagList,
+    favorited,
     favoritesCount,
     createdAt,
     body,
   },
   showBody = false,
-  onLike,
 }) => {
-  const [deleteArticle] = useDeleteArticleMutation();
   const navigate = useNavigate();
+  const [deleteArticle] = useDeleteArticleMutation();
+  const [favorite] = useFavoriteMutation();
+  const [unFavorite] = useUnFavoriteMutation();
 
   const onDeleteArticle = async () => {
     await deleteArticle(slug);
     // TODO use current page pagination
     void navigate('/');
   };
+
+  function onLike() {
+    try {
+      if (favorited) {
+        void unFavorite(slug).unwrap();
+      } else {
+        void favorite(slug).unwrap();
+      }
+    } catch (error) {
+      console.error('Error on favorited', error);
+    }
+  }
 
   return (
     <article
@@ -48,8 +66,8 @@ export const Article: FC<ArticleProps> = ({
       </h2>
       <div className={styles.likes}>
         <AppIcon
-          type="HeartOutline"
-          color={stylesVar.black}
+          type={favorited ? 'HeartFilled' : 'HeartOutline'}
+          color={favorited ? '#FF0707' : stylesVar.black}
           cursor="pointer"
           onClick={onLike}
         />

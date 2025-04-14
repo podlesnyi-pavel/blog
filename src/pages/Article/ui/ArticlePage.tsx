@@ -4,7 +4,6 @@ import { useGetArticleQuery } from '@/shared/api';
 import { useParams } from 'react-router';
 import { Article } from '@/entities/article';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { like } from '@/features/article';
 
 export const ArticlePage: FC = () => {
   const { slug } = useParams();
@@ -12,7 +11,7 @@ export const ArticlePage: FC = () => {
 
   return (
     <div className={styles['article-page']}>
-      {!!article && <Article article={article} showBody onLike={like} />}
+      {!!article && <Article article={article} showBody />}
     </div>
   );
 };

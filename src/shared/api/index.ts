@@ -5,6 +5,8 @@ export {
   useCreateArticleMutation,
   useUpdateArticleMutation,
   useDeleteArticleMutation,
+  useFavoriteMutation,
+  useUnFavoriteMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,

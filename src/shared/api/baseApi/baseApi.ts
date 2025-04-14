@@ -38,7 +38,7 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://blog-platform.kata.academy/api/',
   }),
-  tagTypes: ['user', 'articles', 'article'],
+  tagTypes: ['User', 'Articles', 'Article'],
   endpoints: (builder) => ({
     getArticles: builder.query<IArticlesDataMapped, string>({
       query: (page) => {
@@ -50,6 +50,7 @@ export const baseApi = createApi({
             limit: articlesByPage,
             offset: Number(page) * articlesByPage,
           },
+          headers: getAuthHeaders(),
         };
       },
       transformResponse(
@@ -61,7 +62,7 @@ export const baseApi = createApi({
           articles: articles.map((article) => mapArticle(article)),
         };
       },
-      providesTags: ['articles'],
+      providesTags: ['Articles'],
     }),
     getArticle: builder.query<IArticleTagListObject, string>({
       query: (slug) => `articles/${slug}`,
@@ -69,7 +70,7 @@ export const baseApi = createApi({
         const article = baseQueryReturnValue.article;
         return mapArticle(article);
       },
-      providesTags: ['article'],
+      providesTags: (_, __, slug) => [{ type: 'Article', id: slug }],
     }),
     createArticle: builder.mutation<IArticleData, IArticlePOSTRequest>({
       query: (args) => ({
@@ -78,7 +79,7 @@ export const baseApi = createApi({
         headers: getAuthHeaders(),
         body: { article: { ...args } },
       }),
-      invalidatesTags: ['articles'],
+      invalidatesTags: ['Articles'],
     }),
     updateArticle: builder.mutation<IArticleData, IArticleUpdateRequest>({
       query: ({ body, slug, title, description, tagList }) => {
@@ -96,7 +97,10 @@ export const baseApi = createApi({
           },
         };
       },
-      invalidatesTags: ['articles', 'article'],
+      invalidatesTags: (_, __, { slug }) => [
+        { type: 'Article', id: slug },
+        'Articles',
+      ],
     }),
     deleteArticle: builder.mutation<void, string>({
       query: (slug) => ({
@@ -104,7 +108,29 @@ export const baseApi = createApi({
         headers: getAuthHeaders(),
         method: 'DELETE',
       }),
-      invalidatesTags: ['articles', 'article'],
+      invalidatesTags: ['Articles', 'Article'],
+    }),
+    favorite: builder.mutation<IArticleData, string>({
+      query: (slug) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'POST',
+        headers: getAuthHeaders(),
+      }),
+      invalidatesTags: (_, __, slug) => [
+        { type: 'Article', id: slug },
+        'Articles',
+      ],
+    }),
+    unFavorite: builder.mutation<IArticleData, string>({
+      query: (slug) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+      }),
+      invalidatesTags: (_, __, slug) => [
+        { type: 'Article', id: slug },
+        'Articles',
+      ],
     }),
     getCurrentUser: builder.query<IUser, void>({
       query: () => ({
@@ -114,7 +140,7 @@ export const baseApi = createApi({
       transformResponse(baseQueryReturnValue: IUserData) {
         return baseQueryReturnValue.user;
       },
-      providesTags: ['user'],
+      providesTags: ['User'],
     }),
     registerUser: builder.mutation<
       IUserData,
@@ -143,7 +169,7 @@ export const baseApi = createApi({
           },
         },
       }),
-      invalidatesTags: ['user'],
+      invalidatesTags: ['User'],
     }),
     editProfile: builder.mutation<
       IUserDataWithPassword,
@@ -155,7 +181,7 @@ export const baseApi = createApi({
         headers: getAuthHeaders(),
         body: { user: { ...args } },
       }),
-      invalidatesTags: ['user'],
+      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -166,6 +192,8 @@ export const {
   useCreateArticleMutation,
   useUpdateArticleMutation,
   useDeleteArticleMutation,
+  useFavoriteMutation,
+  useUnFavoriteMutation,
   useGetCurrentUserQuery,
   useRegisterUserMutation,
   useLoginMutation,

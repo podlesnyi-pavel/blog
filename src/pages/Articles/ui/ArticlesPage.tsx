@@ -4,7 +4,6 @@ import styles from './ArticlesPage.module.scss';
 import { AppPagination } from '@/shared/ui';
 import { useGetArticlesQuery } from '@/shared/api';
 import { useSearchParams } from 'react-router';
-import { like } from '@/features/article';
 
 export const ArticlesPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,10 +11,10 @@ export const ArticlesPage: FC = () => {
   const currentPage = Number(searchParams.get('page')) || 1;
 
   useEffect(() => {
-    if (!currentPage) {
+    if (!Number(searchParams.get('page'))) {
       setSearchParams({ page: '1' });
     }
-  }, [currentPage, setSearchParams]);
+  }, [searchParams, setSearchParams]);
 
   const {
     data: articlesData,
@@ -45,7 +44,7 @@ export const ArticlesPage: FC = () => {
           {articlesData.articles.map((article) => {
             return (
               <li className={styles.article} key={article.slug}>
-                <Article article={article} onLike={like} />
+                <Article article={article} />
               </li>
             );
           })}
