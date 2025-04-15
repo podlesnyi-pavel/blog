@@ -2,15 +2,17 @@ import { FC } from 'react';
 import styles from './Header.module.scss';
 import { AppButton, AppLink } from '@/shared/ui';
 import { UserPreview } from '@/entities/user';
-import { useGetCurrentUserQuery } from '@/shared/api';
+import { baseApi, useGetCurrentUserQuery } from '@/shared/api';
 import { logout } from '@/features/user';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 import { removeItem } from '@/shared/lib';
 import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.userSlice.token);
+  const location = useLocation();
   const navigator = useNavigate();
 
   const { data: userData } = useGetCurrentUserQuery(undefined, {
@@ -20,7 +22,8 @@ const Header: FC = () => {
   function onLogOut() {
     dispatch(logout());
     removeItem('auth_token');
-    void navigator('/sign-in');
+    dispatch(baseApi.util.resetApiState());
+    void navigator(location.pathname);
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useRegisterUserMutation } from '@/shared/api';
-import { setItem } from '@/shared/lib';
+import { isErrorsOnFetch, setItem } from '@/shared/lib';
 import { AppButton, AppCheckbox, AppLink } from '@/shared/ui';
 import { RHFWrapperAppInput } from '@/shared/ui';
 import { Divider } from 'antd';
@@ -12,7 +12,7 @@ import {
 } from 'react-hook-form';
 import { setToken } from '../../model/userSlice';
 import { useAppDispatch } from '@/shared/lib';
-import emailPattern from '@/shared/lib/patterns/email';
+import { emailPattern } from '@/shared/lib';
 import { useNavigate } from 'react-router';
 
 interface SignUpFormFields {
@@ -39,6 +39,7 @@ export const SignUpForm: FC = () => {
     control,
     handleSubmit,
     formState: { errors },
+    setError,
   } = methods;
 
   const onCreateNewAccount: SubmitHandler<SignUpFormFields> = (data, event) => {
@@ -48,14 +49,24 @@ export const SignUpForm: FC = () => {
       username: data.username,
       email: data.email,
       password: data.password,
-    }).then((response) => {
-      if (response.data) {
-        const { token } = response.data.user;
+    })
+      .unwrap()
+      .then((result) => {
+        const { token } = result.user;
         setItem('auth_token', token);
         dispatch(setToken(token));
         void navigate('/');
-      }
-    });
+      })
+      .catch((error: unknown) => {
+        if (isErrorsOnFetch(error)) {
+          Object.entries(error.data.errors).forEach(([key, value]) => {
+            setError(key as keyof SignUpFormFields, {
+              type: 'server',
+              message: typeof value === 'string' ? key + ' ' + value : '',
+            });
+          });
+        }
+      });
   };
 
   return (

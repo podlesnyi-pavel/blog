@@ -8,6 +8,7 @@ import {
   IArticleTagListObject,
   useDeleteArticleMutation,
   useFavoriteMutation,
+  useGetCurrentUserQuery,
   useUnFavoriteMutation,
 } from '@/shared/api';
 import Markdown from 'react-markdown';
@@ -38,6 +39,7 @@ export const Article: FC<ArticleProps> = ({
   const [deleteArticle] = useDeleteArticleMutation();
   const [favorite] = useFavoriteMutation();
   const [unFavorite] = useUnFavoriteMutation();
+  const { data: userData } = useGetCurrentUserQuery();
 
   const onDeleteArticle = async () => {
     await deleteArticle(slug);
@@ -56,6 +58,8 @@ export const Article: FC<ArticleProps> = ({
       console.error('Error on favorited', error);
     }
   }
+
+  const isOwnerOfArticle = userData?.username === author.username;
 
   return (
     <article
@@ -91,7 +95,7 @@ export const Article: FC<ArticleProps> = ({
       >
         <div className={styles.description}>{description}</div>
 
-        {!!showBody && (
+        {!!showBody && isOwnerOfArticle && (
           <div className={styles['edit-buttons']}>
             <Popconfirm
               title="Delete the article"

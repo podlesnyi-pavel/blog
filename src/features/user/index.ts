@@ -4,4 +4,4 @@ export { EditProfileForm } from '@/features/user/ui/EditProfileForm/EditProfileF
 
 import userReducer from '@/features/user/model/userSlice';
 export { userReducer };
-export { logout, setToken, getToken } from '@/features/user/model/userSlice';
+export { logout, setToken } from '@/features/user/model/userSlice';

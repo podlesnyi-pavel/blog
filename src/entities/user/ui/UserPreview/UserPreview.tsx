@@ -41,7 +41,7 @@ export const UserPreview: FC<UserPreviewProps> = ({
         {createdAt && <span className={styles.date}>{showDate}</span>}
       </div>
       {actionLink ? (
-        <AppLink to="/profile">
+        <AppLink to="/profile" style={{ marginLeft: '12px' }}>
           <img
             className={styles.avatar}
             src={author.image ?? avatar}
@@ -53,6 +53,7 @@ export const UserPreview: FC<UserPreviewProps> = ({
           className={styles.avatar}
           src={author.image ?? avatar}
           alt="user-avatar"
+          style={{ marginLeft: '12px' }}
         />
       )}
     </div>

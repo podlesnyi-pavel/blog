@@ -3,8 +3,8 @@ import { AppButton, RHFWrapperAppInput } from '@/shared/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useEditProfileMutation, useGetCurrentUserQuery } from '@/shared/api';
 import { isMessageInErrorsOnFetch } from '@/shared/lib';
-import emailPattern from '@/shared/lib/patterns/email';
-import urlPattern from '@/shared/lib/patterns/url';
+import { emailPattern } from '@/shared/lib';
+import { urlPattern } from '@/shared/lib';
 
 const editProfileFormFields = {
   username: '',

@@ -6,7 +6,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { setToken } from '../../model/userSlice';
 import { useAppDispatch } from '@/shared/lib';
-import emailPattern from '@/shared/lib/patterns/email';
+import { emailPattern } from '@/shared/lib';
 
 interface SignInFormFields {
   email: string;

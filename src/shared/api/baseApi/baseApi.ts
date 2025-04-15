@@ -169,7 +169,7 @@ export const baseApi = createApi({
           },
         },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Articles'],
     }),
     editProfile: builder.mutation<
       IUserDataWithPassword,
@@ -181,7 +181,7 @@ export const baseApi = createApi({
         headers: getAuthHeaders(),
         body: { user: { ...args } },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Articles'],
     }),
   }),
 });

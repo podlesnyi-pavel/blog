@@ -16,11 +16,7 @@ const userSlice = createSlice({
       state.token = null;
     },
   },
-  selectors: {
-    getToken: (state) => state.token,
-  },
 });
 
 export const { setToken, logout } = userSlice.actions;
-export const { getToken } = userSlice.selectors;
 export default userSlice.reducer;
