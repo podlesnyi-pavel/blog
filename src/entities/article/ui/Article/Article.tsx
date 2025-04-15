@@ -40,7 +40,6 @@ export const Article: FC<ArticleProps> = ({
   const [deleteArticle] = useDeleteArticleMutation();
   const [favorite] = useFavoriteMutation();
   const [unFavorite] = useUnFavoriteMutation();
-  // const { data: userData } = useGetCurrentUserQuery();
   const token = useAppSelector((state) => state.userSlice.token);
   // TODO create hook
   const { data: userData } = useGetCurrentUserQuery(undefined, {
