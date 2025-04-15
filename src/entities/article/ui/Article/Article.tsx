@@ -15,6 +15,7 @@ import Markdown from 'react-markdown';
 import { AppLink } from '@/shared/ui';
 import { useNavigate } from 'react-router';
 import { Popconfirm } from 'antd';
+import { useAppSelector } from '@/shared/lib';
 
 interface ArticleProps {
   article: IArticleTagListObject;
@@ -39,7 +40,12 @@ export const Article: FC<ArticleProps> = ({
   const [deleteArticle] = useDeleteArticleMutation();
   const [favorite] = useFavoriteMutation();
   const [unFavorite] = useUnFavoriteMutation();
-  const { data: userData } = useGetCurrentUserQuery();
+  // const { data: userData } = useGetCurrentUserQuery();
+  const token = useAppSelector((state) => state.userSlice.token);
+  // TODO create hook
+  const { data: userData } = useGetCurrentUserQuery(undefined, {
+    skip: !token,
+  });
 
   const onDeleteArticle = async () => {
     await deleteArticle(slug);

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { AppButton, RHFWrapperAppInput } from '@/shared/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useEditProfileMutation, useGetCurrentUserQuery } from '@/shared/api';
-import { isMessageInErrorsOnFetch } from '@/shared/lib';
+import { isErrorsOnFetch, isMessageInErrorsOnFetch } from '@/shared/lib';
 import { emailPattern } from '@/shared/lib';
 import { urlPattern } from '@/shared/lib';
 
@@ -39,7 +39,6 @@ export const EditProfileForm: FC = () => {
       } catch (error) {
         if (isMessageInErrorsOnFetch(error)) {
           const message = error.data.errors.message;
-
           const keys = Object.keys(
             editProfileFormFields,
           ) as (keyof TEditProfileFormFields)[];
@@ -50,6 +49,13 @@ export const EditProfileForm: FC = () => {
                 message,
               });
             }
+          });
+        } else if (isErrorsOnFetch(error)) {
+          Object.entries(error.data.errors).forEach(([key, value]) => {
+            setError(key as keyof TEditProfileFormFields, {
+              type: 'server',
+              message: typeof value === 'string' ? key + ' ' + value : '',
+            });
           });
         }
       }

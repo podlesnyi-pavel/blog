@@ -27,6 +27,8 @@ export const UserPreview: FC<UserPreviewProps> = ({
     showDate = `${MONTHS[date.getMonth()]} ${date.getDate().toString()}, ${date.getFullYear().toString()}`;
   }
 
+  const srcAvatar = author.image && author.image !== '' ? author.image : avatar;
+
   return (
     <div
       className={`${styles['user-preview']} ${className ? className.toString() : ''}`}
@@ -42,16 +44,12 @@ export const UserPreview: FC<UserPreviewProps> = ({
       </div>
       {actionLink ? (
         <AppLink to="/profile" style={{ marginLeft: '12px' }}>
-          <img
-            className={styles.avatar}
-            src={author.image ?? avatar}
-            alt="user-avatar"
-          />
+          <img className={styles.avatar} src={srcAvatar} alt="user-avatar" />
         </AppLink>
       ) : (
         <img
           className={styles.avatar}
-          src={author.image ?? avatar}
+          src={srcAvatar}
           alt="user-avatar"
           style={{ marginLeft: '12px' }}
         />

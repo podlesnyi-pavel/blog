@@ -4,16 +4,21 @@ import { ModalLayout } from '@/shared/ui';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { FC, useEffect } from 'react';
 import { useMatch, useNavigate } from 'react-router';
+import { useAppSelector } from '@/shared/lib';
 
 export const NewEditArticlePage: FC = () => {
   const match = useMatch(`/articles/:slug/edit`);
   const navigate = useNavigate();
+  const token = useAppSelector((state) => state.userSlice.token);
   const isEditPage = match?.params.slug;
 
   const { data: articleData, isLoading: isLoadingArticle } = useGetArticleQuery(
     isEditPage ?? skipToken,
   );
-  const { data: userData } = useGetCurrentUserQuery();
+  // TODO create hook
+  const { data: userData } = useGetCurrentUserQuery(undefined, {
+    skip: !token,
+  });
 
   const isNotOwnerOfArticle =
     articleData?.author.username !== userData?.username;
