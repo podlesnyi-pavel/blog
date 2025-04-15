@@ -6,6 +6,7 @@ import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { setToken } from '../../model/userSlice';
 import { useAppDispatch } from '@/shared/lib';
+import emailPattern from '@/shared/lib/patterns/email';
 
 interface SignInFormFields {
   email: string;
@@ -66,9 +67,7 @@ export const SignInForm: FC = () => {
           type="email"
           name="email"
           pattern={{
-            value:
-              // eslint-disable-next-line no-useless-escape
-              '^[a-z][a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$',
+            value: emailPattern,
             message: 'Email is invalid',
           }}
           required

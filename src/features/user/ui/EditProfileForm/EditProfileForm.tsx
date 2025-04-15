@@ -3,6 +3,8 @@ import { AppButton, RHFWrapperAppInput } from '@/shared/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useEditProfileMutation, useGetCurrentUserQuery } from '@/shared/api';
 import { isMessageInErrorsOnFetch } from '@/shared/lib';
+import emailPattern from '@/shared/lib/patterns/email';
+import urlPattern from '@/shared/lib/patterns/url';
 
 const editProfileFormFields = {
   username: '',
@@ -70,9 +72,7 @@ export const EditProfileForm: FC = () => {
           type="email"
           name="email"
           pattern={{
-            value:
-              // eslint-disable-next-line no-useless-escape
-              '^[a-z][a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$',
+            value: emailPattern,
             message: 'Email is invalid',
           }}
         />
@@ -97,9 +97,7 @@ export const EditProfileForm: FC = () => {
           placeholder="Avatar image"
           name="image"
           pattern={{
-            value:
-              // eslint-disable-next-line no-useless-escape
-              /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi,
+            value: urlPattern,
             message: 'Image url is invalid',
           }}
         />

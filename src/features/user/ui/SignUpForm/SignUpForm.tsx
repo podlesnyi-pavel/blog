@@ -12,6 +12,8 @@ import {
 } from 'react-hook-form';
 import { setToken } from '../../model/userSlice';
 import { useAppDispatch } from '@/shared/lib';
+import emailPattern from '@/shared/lib/patterns/email';
+import { useNavigate } from 'react-router';
 
 interface SignUpFormFields {
   username: string;
@@ -24,6 +26,7 @@ interface SignUpFormFields {
 export const SignUpForm: FC = () => {
   const [registerUser] = useRegisterUserMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const methods = useForm<SignUpFormFields>({
     mode: 'onChange',
@@ -50,6 +53,7 @@ export const SignUpForm: FC = () => {
         const { token } = response.data.user;
         setItem('auth_token', token);
         dispatch(setToken(token));
+        void navigate('/');
       }
     });
   };
@@ -80,9 +84,7 @@ export const SignUpForm: FC = () => {
           type="email"
           name="email"
           pattern={{
-            value:
-              // eslint-disable-next-line no-useless-escape
-              '^[a-z][a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$',
+            value: emailPattern,
             message: 'Email is invalid',
           }}
           required

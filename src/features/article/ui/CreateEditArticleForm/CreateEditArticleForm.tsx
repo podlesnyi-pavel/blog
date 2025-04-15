@@ -30,8 +30,6 @@ export const CreateEditArticleForm: FC<CreateEditArticleFormProps> = ({
     match?.params.slug ?? skipToken,
   );
   const navigate = useNavigate();
-  // console.log('articleData', articleData);
-  // console.log('match', match);
 
   const methods = useForm<FormValues>({
     values: {
