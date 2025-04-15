@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import styles from './createEditArticleForm.module.scss';
+import styles from './CreateEditArticleForm.module.scss';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { AppButton, AppInput, RHFWrapperAppInput } from '@/shared/ui';
 import {
