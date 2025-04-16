@@ -30,7 +30,8 @@ export const EditProfileForm: FC = () => {
 
   const { handleSubmit, setError } = methods;
 
-  const [editProfile] = useEditProfileMutation();
+  const [editProfile, { isLoading: isLoadingEditProfile }] =
+    useEditProfileMutation();
 
   async function onSave(data: TEditProfileFormFields) {
     if (Object.values(data).some((value) => value)) {
@@ -108,7 +109,12 @@ export const EditProfileForm: FC = () => {
           }}
         />
 
-        <AppButton type="primary" size="large" htmlType="submit">
+        <AppButton
+          type="primary"
+          size="large"
+          htmlType="submit"
+          disabled={isLoadingEditProfile}
+        >
           Save
         </AppButton>
       </form>
