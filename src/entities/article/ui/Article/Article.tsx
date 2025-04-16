@@ -53,6 +53,11 @@ export const Article: FC<ArticleProps> = ({
   };
 
   function onLike() {
+    if (!token) {
+      void navigate('/sign-in');
+      return;
+    }
+
     try {
       if (favorited) {
         void unFavorite(slug).unwrap();
